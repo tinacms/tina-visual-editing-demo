@@ -1,0 +1,14 @@
+fragment PageParts on Page {
+  header
+  logo {
+    __typename
+    url
+    alt
+  }
+  links {
+    __typename
+    header
+    description
+    url
+  }
+}
