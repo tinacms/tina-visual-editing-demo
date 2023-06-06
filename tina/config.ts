@@ -40,9 +40,9 @@ export default defineConfig({
     },
   },
   media: {
-    tina: {
-      publicFolder: "public",
-      mediaRoot: "",
+    loadCustomStore: async () => {
+      const pack = await import("next-tinacms-cloudinary");
+      return pack.TinaCloudCloudinaryMediaStore;
     },
   },
   schema: {
