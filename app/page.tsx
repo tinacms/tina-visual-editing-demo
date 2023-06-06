@@ -1,7 +1,7 @@
 import { Page } from "@/components/page";
-import { client } from "@/tina/__generated__/client";
+import { dbConnection } from "../lib/databaseConnection";
 
 export default async function Home() {
-  const res = await client.queries.page({ relativePath: "home.md" });
+  const res = await dbConnection.queries.page({ relativePath: "home.md" });
   return <Page {...res} />;
 }

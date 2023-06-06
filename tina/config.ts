@@ -1,12 +1,43 @@
 import { defineConfig } from "tinacms";
+const LOCAL_KEY = "tinacns-fake-auth";
 
 export default defineConfig({
+  contentApiUrlOverride: "/api/gql",
   branch: "main",
   clientId: process.env.TINA_CLIENT_ID || "",
   token: process.env.TINA_TOKEN || "",
   build: {
     publicFolder: "public",
     outputFolder: "admin",
+  },
+  admin: {
+    auth: {
+      customAuth: true,
+      authenticate: async () => {
+        // Add your authentication logic here
+        localStorage.setItem(LOCAL_KEY, "some-token");
+      },
+      getToken: async () => {
+        // Add your own getting token
+        const token = localStorage.getItem(LOCAL_KEY);
+        if (!token) {
+          return { id_token: "" };
+        }
+        return { id_token: token };
+      },
+      getUser: async () => {
+        // Add your own getting user
+        // if this function returns a truthy value, the user is logged in and if it rutnrs
+        if (localStorage.getItem(LOCAL_KEY)) {
+          return true;
+        }
+        return false;
+      },
+      logout: async () => {
+        // add your own logout logic
+        localStorage.removeItem(LOCAL_KEY);
+      },
+    },
   },
   media: {
     tina: {
