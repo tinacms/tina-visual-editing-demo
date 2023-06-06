@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@tinacms/cli": "^1.5.14",
-    "@tinacms/vercel-previews": "^0.0.1",
     "@types/node": "20.2.5",
     "@types/react": "18.2.7",
     "@types/react-dom": "18.2.4",
