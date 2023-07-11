@@ -4,6 +4,7 @@ import { getSession, signIn, signOut } from "next-auth/react";
 const isLocal = process.env.TINA_PUBLIC_IS_LOCAL === "true";
 export default defineConfig({
   contentApiUrlOverride: "/api/gql",
+  clientId: process.env.NEXT_PUBLIC_TINA_CLIENT_ID!,
   branch:
     process.env.NEXT_PUBLIC_TINA_BRANCH! || // custom branch env override
     process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_REF! || // Vercel branch env
