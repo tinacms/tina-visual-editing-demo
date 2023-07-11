@@ -1,10 +1,13 @@
 import { defineConfig } from "tinacms";
-const LOCAL_KEY = "tinacns-fake-auth";
+import { getSession, signIn, signOut } from "next-auth/react";
 
+const isLocal = process.env.TINA_PUBLIC_IS_LOCAL === "true";
 export default defineConfig({
   contentApiUrlOverride: "/api/gql",
-  branch: "main",
-  clientId: process.env.TINA_CLIENT_ID || "",
+  branch:
+    process.env.NEXT_PUBLIC_TINA_BRANCH! || // custom branch env override
+    process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_REF! || // Vercel branch env
+    process.env.HEAD!, // Netlify branch env  clientId: process.env.TINA_CLIENT_ID || "",
   token: process.env.TINA_TOKEN || "",
   build: {
     publicFolder: "public",
@@ -12,30 +15,29 @@ export default defineConfig({
   },
   admin: {
     auth: {
-      customAuth: true,
+      useLocalAuth: isLocal,
+      customAuth: !isLocal,
       authenticate: async () => {
-        // Add your authentication logic here
-        localStorage.setItem(LOCAL_KEY, "some-token");
-      },
-      getToken: async () => {
-        // Add your own getting token
-        const token = localStorage.getItem(LOCAL_KEY);
-        if (!token) {
-          return { id_token: "" };
-        }
-        return { id_token: token };
-      },
-      getUser: async () => {
-        // Add your own getting user
-        // if this function returns a truthy value, the user is logged in and if it rutnrs
-        if (localStorage.getItem(LOCAL_KEY)) {
+        if (isLocal) {
           return true;
         }
-        return false;
+        return signIn("Credentials", { callbackUrl: "/admin/index.html" });
+      },
+      getToken: async () => {
+        return { id_token: "" };
+      },
+      getUser: async () => {
+        if (isLocal) {
+          return true;
+        }
+        const session = await getSession();
+        return !!session;
       },
       logout: async () => {
-        // add your own logout logic
-        localStorage.removeItem(LOCAL_KEY);
+        if (isLocal) {
+          return;
+        }
+        return signOut({ callbackUrl: "/admin/index.html" });
       },
     },
   },
