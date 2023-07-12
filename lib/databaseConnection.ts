@@ -2,28 +2,21 @@ import database from "../tina/database";
 import { queries } from "../tina/__generated__/types";
 import { resolve } from "@tinacms/datalayer";
 import type { TinaClient } from "tinacms/dist/client";
-import { parse } from "graphql";
 
 export async function databaseRequest({ query, variables }: any) {
-  const queryNode = parse(query);
-  if (queryNode.definitions[0].kind === "OperationDefinition") {
-    if (queryNode.definitions[0].operation === "mutation") {
-      // Don't support mutations since this path is unauthenticated
-      return {
-        data: {},
-      };
-    }
-  }
+  const config = {
+    useRelativeMedia: true,
+  } as any;
 
-  return resolve({
-    config: {
-      useRelativeMedia: true,
-    },
+  const result = await resolve({
+    config,
     database,
     query,
     variables,
     verbose: true,
   });
+
+  return result;
 }
 
 export function getDatabaseConnection<GenQueries = Record<string, unknown>>({
@@ -33,8 +26,7 @@ export function getDatabaseConnection<GenQueries = Record<string, unknown>>({
     request: TinaClient<GenQueries>["request"];
   }) => GenQueries;
 }) {
-  // @ts-ignore
-  const request = async ({ query, variables }) => {
+  const request = async ({ query, variables }: any) => {
     const data = await databaseRequest({ query, variables });
     return { data: data.data as any, query, variables, errors: data.errors };
   };
