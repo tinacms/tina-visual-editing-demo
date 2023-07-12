@@ -9,30 +9,39 @@
     "lint": "next lint",
     "setup:users": "tsx tina/kv_user_manager.ts"
   },
+  "devDependencies": {
+    "@types/bcryptjs": "2.4.2",
+    "@types/inquirer": "9.0.3"
+  },
   "dependencies": {
     "@octokit/rest": "^19.0.7",
-    "js-base64": "^3.7.4",
-    "@tinacms/cli": "0.0.0-20230629195547",
-    "@tinacms/datalayer": "1.2.15",
+    "@tinacms/cli": "1.5.24",
     "@types/node": "20.2.5",
     "@types/react": "18.2.7",
     "@types/react-dom": "18.2.4",
     "autoprefixer": "10.4.14",
+    "bcryptjs": "^2.4.3",
+    "chalk": "^5.2.0",
+    "dotenv": "^16.3.1",
     "eslint": "8.41.0",
     "eslint-config-next": "13.4.4",
     "graphql": "15.8.0",
+    "inquirer": "9.2.7",
+    "isomorphic-fetch": "^3.0.0",
+    "js-base64": "^3.7.4",
     "mongodb-level": "^0.0.2",
     "next": "13.4.4",
+    "next-auth": "^4.22.1",
     "next-tinacms-cloudinary": "^4.3.1",
     "postcss": "8.4.24",
+    "postcss-nesting": "^10.1.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-textarea-autosize": "^8.5.2",
     "tailwindcss": "3.3.2",
-    "tinacms": "0.0.0-20230629195547",
+    "tinacms": "1.5.15",
+    "tsx": "^3.12.7",
     "typescript": "5.0.4",
-    "next-auth": "^4.22.1",
-    "upstash-redis-level": "1.0.0",
-    "bcryptjs": "^2.4.3",
-    "inquirer": "9.2.7"
+    "upstash-redis-level": "1.0.0"
   }
 }

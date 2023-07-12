@@ -3,7 +3,7 @@ import { queries } from "../tina/__generated__/types";
 import { resolve } from "@tinacms/datalayer";
 import type { TinaClient } from "tinacms/dist/client";
 
-export async function databaseRequest({ query, variables }) {
+export async function databaseRequest({ query, variables }: any) {
   const config = {
     useRelativeMedia: true,
   } as any;
@@ -26,7 +26,7 @@ export function getDatabaseConnection<GenQueries = Record<string, unknown>>({
     request: TinaClient<GenQueries>["request"];
   }) => GenQueries;
 }) {
-  const request = async ({ query, variables }) => {
+  const request = async ({ query, variables }: any) => {
     const data = await databaseRequest({ query, variables });
     return { data: data.data as any, query, variables, errors: data.errors };
   };
